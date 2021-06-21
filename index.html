@@ -1,0 +1,32 @@
+<html>
+  <body>
+
+    <div id="status">Loading index.json ....</div>
+
+    <script>
+
+      // register the service worker
+
+      window.addEventListener('load', function() {
+        navigator.serviceWorker.register('sw.js')
+          .then(
+            reg => console.log('sw registered with scope: ', reg.scope),
+            err => console.log('sw registration error: ', err)
+          )
+      })
+
+      // load the index.json file with a fetch and update the 
+      // document with the time it takes to load
+
+      const started = new Date()
+      fetch('index.json')
+        .then(resp => resp.json())
+        .then(data => {
+          const elapsed = new Date() - started
+          document.getElementById('status').innerHTML = `Loaded index.json in ${elapsed} milliseconds.`
+        }) 
+
+    </script>
+
+  </body>
+</html>
